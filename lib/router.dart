@@ -16,7 +16,7 @@ Route<dynamic> onGenerateRoute(RouteSettings s) {
       return MaterialPageRoute(builder: (_) => const MyProjectsScreen());
     case '/view-bidders':
       final id = s.arguments as int;
-      return MaterialPageRoute(builder: (_) => ViewBiddersScreen());//jobId: id(pass as an arg in viewBiddersScreen)
+      return MaterialPageRoute(builder: (_) => ViewBiddersScreen(jobId: id));//jobId: id(pass as an arg in viewBiddersScreen)
     case '/my-bids':
       return MaterialPageRoute(builder: (_) => const MyBidsScreen());
     case '/my-jobs':
@@ -25,7 +25,7 @@ Route<dynamic> onGenerateRoute(RouteSettings s) {
       return MaterialPageRoute(builder: (_) => const RecentConversationsScreen());
     case '/chats':
       final uid = s.arguments as String? ?? '';
-      return MaterialPageRoute(builder: (_) => ChatsScreen());//otherUid: uid (pass as an arg in ChatsScreen)
+      return MaterialPageRoute(builder: (_) => ChatsScreen(otherUid: uid));//otherUid: uid (pass as an arg in ChatsScreen)
     case '/authenticate':
       return MaterialPageRoute(builder: (_) => const AuthenticateScreen());
     default:
