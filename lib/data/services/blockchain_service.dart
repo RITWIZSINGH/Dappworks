@@ -43,13 +43,35 @@ class BlockchainService {
   }
 
   Future<void> _ensureContractLoaded() async {
-    if (_contract != null) return;
+  if (_contract != null) return;
+  
+  try {
     final abiStr = await rootBundle.loadString('assets/abi/DappWorks.json');
+    
+    // Add validation
+    if (abiStr.trim().isEmpty) {
+      throw Exception('ABI file is empty');
+    }
+    
     final abiJson = json.decode(abiStr) as Map<String, dynamic>;
-    final abi = web3.ContractAbi.fromJson(json.encode(abiJson['abi']), 'DappWorks');
+    
+    // Handle both formats: direct ABI array or object with 'abi' key
+    final abiData = abiJson.containsKey('abi') 
+        ? abiJson['abi'] 
+        : abiJson;
+    
+    final abi = web3.ContractAbi.fromJson(
+      json.encode(abiData), 
+      'DappWorks'
+    );
+    
     final address = web3.EthereumAddress.fromHex(contractAddressHex);
     _contract = web3.DeployedContract(abi, address);
+  } catch (e) {
+    print('Error loading contract: $e');
+    rethrow;
   }
+}
 
   // ------------- helpers to call contract -------------
   Future<List<dynamic>> _read(String fn, [List<dynamic> args = const []]) async {
