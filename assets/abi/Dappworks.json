@@ -2,13 +2,100 @@
   "abi": [
     {
       "inputs": [
-        {"internalType": "string", "name": "title", "type": "string"},
-        {"internalType": "string", "name": "description", "type": "string"},
-        {"internalType": "string", "name": "tags", "type": "string"}
+        {
+          "internalType": "string",
+          "name": "jobTitle",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "tags",
+          "type": "string"
+        }
       ],
       "name": "addJobListing",
       "outputs": [],
       "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "jId",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "bidder",
+          "type": "address"
+        }
+      ],
+      "name": "acceptBid",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "bidForJob",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "deleteJob",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateJob",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "payout",
+      "outputs": [],
+      "stateMutability": "nonpayable",
       "type": "function"
     },
     {
@@ -17,21 +104,411 @@
       "outputs": [
         {
           "components": [
-            {"internalType": "uint256", "name": "id", "type": "uint256"},
-            {"internalType": "address", "name": "owner", "type": "address"},
-            {"internalType": "address", "name": "freelancer", "type": "address"},
-            {"internalType": "string", "name": "jobTitle", "type": "string"},
-            {"internalType": "string", "name": "description", "type": "string"},
-            {"internalType": "string", "name": "tags", "type": "string"},
-            {"internalType": "uint256", "name": "prize", "type": "uint256"},
-            {"internalType": "bool", "name": "paidOut", "type": "bool"},
-            {"internalType": "uint256", "name": "timestamp", "type": "uint256"},
-            {"internalType": "bool", "name": "listed", "type": "bool"},
-            {"internalType": "bool", "name": "disputed", "type": "bool"},
-            {"internalType": "address[]", "name": "bidders", "type": "address[]"}
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "freelancer",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "jobTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "tags",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prize",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "paidOut",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "listed",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "disputed",
+              "type": "bool"
+            },
+            {
+              "internalType": "address[]",
+              "name": "bidders",
+              "type": "address[]"
+            }
           ],
-          "internalType": "struct DappWorks.Job[]",
+          "internalType": "struct DappWorks.JobStruct[]",
+          "name": "ActiveJobs",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMyJobs",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "freelancer",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "jobTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "tags",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prize",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "paidOut",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "listed",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "disputed",
+              "type": "bool"
+            },
+            {
+              "internalType": "address[]",
+              "name": "bidders",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct DappWorks.JobStruct[]",
+          "name": "MyJobs",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getJob",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "freelancer",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "jobTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "tags",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prize",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "paidOut",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "listed",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "disputed",
+              "type": "bool"
+            },
+            {
+              "internalType": "address[]",
+              "name": "bidders",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct DappWorks.JobStruct",
           "name": "",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getAssignedJobs",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "freelancer",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "jobTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "tags",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prize",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "paidOut",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "listed",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "disputed",
+              "type": "bool"
+            },
+            {
+              "internalType": "address[]",
+              "name": "bidders",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct DappWorks.JobStruct[]",
+          "name": "AssignedJobs",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getJobsForBidder",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "freelancer",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "jobTitle",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "description",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "tags",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "prize",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "paidOut",
+              "type": "bool"
+            },
+            {
+              "internalType": "uint256",
+              "name": "timestamp",
+              "type": "uint256"
+            },
+            {
+              "internalType": "bool",
+              "name": "listed",
+              "type": "bool"
+            },
+            {
+              "internalType": "bool",
+              "name": "disputed",
+              "type": "bool"
+            },
+            {
+              "internalType": "address[]",
+              "name": "bidders",
+              "type": "address[]"
+            }
+          ],
+          "internalType": "struct DappWorks.JobStruct[]",
+          "name": "bidderJobs",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "id",
+          "type": "uint256"
+        }
+      ],
+      "name": "getBidders",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "uint256",
+              "name": "id",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "jId",
+              "type": "uint256"
+            },
+            {
+              "internalType": "address",
+              "name": "account",
+              "type": "address"
+            }
+          ],
+          "internalType": "struct DappWorks.BidStruct[]",
+          "name": "Bidders",
           "type": "tuple[]"
         }
       ],

@@ -1,18 +1,17 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'data/services/blockchain_service.dart';
-import 'router.dart';
 import 'state/app_state.dart';
+import 'router.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // TODO: supply your RPC + WS + contract address
   final chain = BlockchainService(
-    rpcUrl: 'https://sepolia.infura.io/v3/7aac6a3490e545e7851d4250e0dee01b',
-    // wsUrl: 'wss://mainnet.infura.io/ws/v3/YOUR_KEY',
-    contractAddressHex: '0x5FbDB2315678afecb367f032d93F642f64180aa3',
-    devPrivateKey: '7aac6a3490e545e7851d4250e0dee01b',
+    rpcUrl: 'http://127.0.0.1:8545', // local node for dev
+    contractAddressHex: '<LOCAL_DEPLOYED_ADDRESS>',
+    devPrivateKey: '<LOCAL_DEV_PRIVATE_KEY>',
   );
 
   runApp(MyApp(chain: chain));
@@ -25,7 +24,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => AppState(chain)..boot(),
+      // Start in local mode; change to false when ready
+      create: (_) => AppState(blockchainService: chain, useLocalService: true),
       child: MaterialApp(
         title: 'Dappworks',
         debugShowCheckedModeBanner: false,

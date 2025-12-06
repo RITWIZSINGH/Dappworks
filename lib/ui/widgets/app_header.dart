@@ -32,7 +32,7 @@ class AppHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
           const SizedBox(width: 12),
           const Text(
-            'Dappworks',
+            'FreelanceForge',
             style: TextStyle(
               fontWeight: FontWeight.w700,
               letterSpacing: -0.5,
