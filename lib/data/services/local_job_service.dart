@@ -175,7 +175,7 @@ class LocalJobService {
     
     bidders.add(Bidder(
       id: bidderId,
-      jId: id,
+      jobId: id,
       account: mockWalletAddress.toLowerCase(),
     ));
     
@@ -188,11 +188,11 @@ class LocalJobService {
   /// Accept a bid
   Future<void> acceptBid({
     required int id,
-    required int jId,
+    required int jobId,
     required String bidder,
   }) async {
     final jobs = await _loadJobs();
-    final index = jobs.indexWhere((j) => j.id == jId);
+    final index = jobs.indexWhere((j) => j.id == jobId);
     
     if (index == -1) {
       throw Exception('Job not found');
@@ -209,7 +209,7 @@ class LocalJobService {
     
     await _saveJobs(jobs);
     // ignore: avoid_print
-    print('✅ [LOCAL] Bid accepted for job ID: $jId');
+    print('✅ [LOCAL] Bid accepted for job ID: $jobId');
   }
 
   /// Mark job as paid out
@@ -282,7 +282,7 @@ class LocalJobService {
   /// Get bidders for a job
   Future<List<Bidder>> getBidders(int id) async {
     final bidders = await _loadBidders();
-    return bidders.where((b) => b.jId == id).toList();
+    return bidders.where((b) => b.jobId == id).toList();
   }
 
   /// Clear all local data (useful for testing)
@@ -366,13 +366,13 @@ class LocalJobService {
 
   Map<String, dynamic> _bidderToJson(Bidder bidder) => {
     'id': bidder.id,
-    'jId': bidder.jId,
+    'jobId': bidder.jobId,
     'account': bidder.account,
   };
 
   Bidder _bidderFromJson(Map<String, dynamic> json) => Bidder(
     id: json['id'],
-    jId: json['jId'],
+    jobId: json['jobId'],
     account: json['account'],
   );
 }

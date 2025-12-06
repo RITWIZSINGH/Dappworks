@@ -267,7 +267,7 @@ class BlockchainService {
       final list = (res.first as List)
           .map((e) => Bidder(
                 id: (e[0] as BigInt).toInt(),
-                jId: (e[1] as BigInt).toInt(),
+                jobId: (e[1] as BigInt).toInt(),
                 account: (e[2] as web3.EthereumAddress).hex.toLowerCase(),
               ))
           .toList();
