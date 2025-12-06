@@ -1,40 +1,50 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'data/services/blockchain_service.dart';
+
 import 'state/app_state.dart';
 import 'router.dart';
+import 'ui/screens/auth/role_select_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  final chain = BlockchainService(
-    rpcUrl: 'http://127.0.0.1:8545', // local node for dev
-    contractAddressHex: '<LOCAL_DEPLOYED_ADDRESS>',
-    devPrivateKey: '<LOCAL_DEV_PRIVATE_KEY>',
+  // We are using ONLY local service for this demo
+  final appState = AppState(
+    blockchainService: null,
+    useLocalService: true,
   );
 
-  runApp(MyApp(chain: chain));
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => appState,
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  final BlockchainService chain;
-  const MyApp({super.key, required this.chain});
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      // Start in local mode; change to false when ready
-      create: (_) => AppState(blockchainService: chain, useLocalService: true),
-      child: MaterialApp(
-        title: 'Dappworks',
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-          useMaterial3: true,
-        ),
-        onGenerateRoute: onGenerateRoute,
-      ),
+    return Consumer<AppState>(
+      builder: (_, app, __) {
+        return MaterialApp(
+          title: 'FreelanceForge',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+            useMaterial3: true,
+          ),
+          onGenerateRoute: onGenerateRoute,
+          // AppState handles boot; once ready we start at RoleSelectScreen.
+          home: app.isLoading
+              ? const Scaffold(
+                  body: Center(child: CircularProgressIndicator()),
+                )
+              : const RoleSelectScreen(),
+        );
+      },
     );
   }
 }
