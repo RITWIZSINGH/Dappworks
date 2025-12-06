@@ -1,9 +1,9 @@
 // lib/state/app_state.dart
 import 'package:flutter/foundation.dart';
-import '../data/services/blockchain_service.dart'; // or '../data/services/blockchain_service.dart'
+import '../data/services/blockchain_service.dart';
 import '../data/services/local_job_service.dart';
-import '../data/models/job.dart';    // or '../data/models/job.dart'
-import '../data/models/bidder.dart'; // or '../data/models/bidder.dart'
+import '../data/models/job.dart';
+import '../data/models/bidder.dart';
 
 class AppState extends ChangeNotifier {
   final BlockchainService? _blockchainService;
@@ -23,6 +23,9 @@ class AppState extends ChangeNotifier {
   // Loading / errors
   bool isLoading = false;
   String? errorMessage;
+
+  // Getter for account (used in screens)
+  String get account => connectedAccount ?? '0x0000000000000000000000000000000000000000';
 
   AppState({
     BlockchainService? blockchainService,
@@ -230,7 +233,8 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  Future<void> bidForJob(int id) async {
+  // Changed from bidForJob to placeBid to match usage in screens
+  Future<void> placeBid(int id) async {
     try {
       if (_useLocalService) {
         await _localService.bidForJob(id);
@@ -244,6 +248,11 @@ class AppState extends ChangeNotifier {
       notifyListeners();
       rethrow;
     }
+  }
+
+  // Keep the old method name for backward compatibility
+  Future<void> bidForJob(int id) async {
+    return placeBid(id);
   }
 
   Future<void> payout(int id) async {
@@ -282,16 +291,16 @@ class AppState extends ChangeNotifier {
 
   Future<void> acceptBid({
     required int id,
-    required int jId,
+    required int jobId,
     required String account,
   }) async {
     try {
       if (_useLocalService) {
-        await _localService.acceptBid(id: id, jId: jId, bidder: account);
+        await _localService.acceptBid(id: id, jobId: jobId, bidder: account);
       } else {
-        await _ensureChain().acceptBid(id: id, jId: jId, bidder: account);
+        await _ensureChain().acceptBid(id: id, jId: jobId, bidder: account);
       }
-      await loadBidders(jId);
+      await loadBidders(jobId);
     } catch (e) {
       debugPrint('❌ Accept bid error: $e');
       errorMessage = 'Failed to accept bid: $e';

@@ -1,6 +1,6 @@
 class Bidder {
   final int id;
-  final int jId;
+  final int? jobId;
   final String account;
-  const Bidder({required this.id, required this.jId, required this.account});
+  const Bidder({required this.id,  this.jobId, required this.account});
 }
